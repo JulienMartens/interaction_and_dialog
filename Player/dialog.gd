@@ -5,6 +5,10 @@ var time_since_last_letter_shown = 0
 var dialog = false
 
 
+func show_text(new_text:String = ""):
+	self.text = tr(new_text)
+
+
 func start_dialog(messages:Array[String] ):
 	for message in messages:
 		self.visible_ratio = 0

@@ -5,6 +5,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var mouse_relative_x = 0
 var mouse_relative_y = 0
+
 func _ready():
 	#Captures mouse
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -20,7 +21,7 @@ func _physics_process(delta: float) -> void:
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir := Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * SPEED
@@ -38,9 +39,3 @@ func _input(event):
 		$Camera.rotation.x = clamp($Camera.rotation.x, deg_to_rad(-90), deg_to_rad(90) )
 		mouse_relative_x = clamp(event.relative.x, -50, 50)
 		mouse_relative_y = clamp(event.relative.y, -50, 10)
-	if event.is_action_pressed("interact"):
-		emit_signal("interact");
-	if event.is_action_pressed("menu"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		$Camera/menuFilter.visible = true
-		get_tree().paused = true

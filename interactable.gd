@@ -1,8 +1,12 @@
-extends StaticBody3D
+extends PhysicsBody3D
 
 class_name Interactable
 
-var interactable_activated = false
+var is_active = false
+var interaction_string = "default_interaction"
 
-func set_interactable(new_interactable_state:bool):
-	interactable_activated = new_interactable_state
+func set_active(new_is_active:bool) -> void:
+	is_active = new_is_active
+
+func interact() -> void:
+	print(self.name + " Interacted !")

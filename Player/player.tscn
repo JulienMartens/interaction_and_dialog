@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://ca5oxpmjt6qti"]
+[gd_scene load_steps=8 format=3 uid="uid://ca5oxpmjt6qti"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_slxjq"]
 [ext_resource type="Script" path="res://Player/interaction_manager.gd" id="2_xhso5"]
+[ext_resource type="Script" path="res://Player/dialog.gd" id="3_34hu1"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4rvsu"]
 height = 1.5
@@ -13,19 +14,45 @@ radius = 1.12658
 
 [sub_resource type="TorusMesh" id="TorusMesh_be7l8"]
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_slxjq")
 
 [node name="Camera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.424999)
 current = true
 
-[node name="Area3D" type="Area3D" parent="Camera"]
+[node name="Interaction_area" type="Area3D" parent="Camera"]
 script = ExtResource("2_xhso5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Interaction_area"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.75)
 shape = SubResource("CylinderShape3D_4rvsu")
+
+[node name="Dialog" type="Control" parent="Camera"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera/Dialog"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -0.5
+offset_top = -23.0
+offset_right = 0.5
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="Camera/Dialog/VBoxContainer"]
+layout_mode = 2
+visible_characters_behavior = 1
+script = ExtResource("3_34hu1")
 
 [node name="body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -40,5 +67,5 @@ shape = SubResource("CapsuleShape3D_13ioa")
 transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.6, -0.137376)
 mesh = SubResource("TorusMesh_be7l8")
 
-[connection signal="body_entered" from="Camera/Area3D" to="Camera/Area3D" method="_on_body_entered"]
-[connection signal="body_exited" from="Camera/Area3D" to="Camera/Area3D" method="_on_body_exited"]
+[connection signal="body_entered" from="Camera/Interaction_area" to="Camera/Interaction_area" method="_on_body_entered"]
+[connection signal="body_exited" from="Camera/Interaction_area" to="Camera/Interaction_area" method="_on_body_exited"]

@@ -36,7 +36,7 @@ uv1_scale = Vector3(20, 20, 20)
 
 [node name="main" type="Node3D"]
 
-[node name="Player" parent="." instance=ExtResource("1_acj1b")]
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_acj1b")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_t0t13")

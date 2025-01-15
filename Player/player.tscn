@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://ca5oxpmjt6qti"]
+
+[ext_resource type="Script" path="res://Player/player.gd" id="1_slxjq"]
+[ext_resource type="Script" path="res://Player/interaction_manager.gd" id="2_xhso5"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_4rvsu"]
+height = 1.5
+radius = 1.12658
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_t88ik"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_13ioa"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_be7l8"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_slxjq")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.424999)
+current = true
+
+[node name="Area3D" type="Area3D" parent="Camera"]
+script = ExtResource("2_xhso5")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Camera/Area3D"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.75)
+shape = SubResource("CylinderShape3D_4rvsu")
+
+[node name="body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_t88ik")
+skeleton = NodePath("../CollisionShape3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_13ioa")
+
+[node name="eyes" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.6, -0.137376)
+mesh = SubResource("TorusMesh_be7l8")
+
+[connection signal="body_entered" from="Camera/Area3D" to="Camera/Area3D" method="_on_body_entered"]
+[connection signal="body_exited" from="Camera/Area3D" to="Camera/Area3D" method="_on_body_exited"]

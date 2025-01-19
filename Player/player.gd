@@ -1,14 +1,17 @@
 extends CharacterBody3D
 
-
 const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var mouse_relative_x = 0
 var mouse_relative_y = 0
 
+@onready var dialog_manager = self.get_node("Camera/Dialog")
+
+signal interact(player:CharacterBody3D)
+
 func _ready():
-	#Captures mouse
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -39,3 +42,8 @@ func _input(event):
 		$Camera.rotation.x = clamp($Camera.rotation.x, deg_to_rad(-90), deg_to_rad(90) )
 		mouse_relative_x = clamp(event.relative.x, -50, 50)
 		mouse_relative_y = clamp(event.relative.y, -50, 10)
+	if event.is_action_pressed("interact"):
+		interact.emit(self);
+
+func start_dialog(dialog_infos:Dictionary):
+	dialog_manager.start_dialog(dialog_infos)

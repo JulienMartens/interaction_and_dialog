@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ca5oxpmjt6qti"]
+[gd_scene load_steps=9 format=3 uid="uid://ca5oxpmjt6qti"]
 
 [ext_resource type="Script" path="res://Player/player.gd" id="1_slxjq"]
+[ext_resource type="PackedScene" uid="uid://6lfp1fgn6ar7" path="res://Player/Dialog/dialog.tscn" id="2_ses77"]
 [ext_resource type="Script" path="res://Player/interaction_manager.gd" id="2_xhso5"]
-[ext_resource type="Script" path="res://Player/dialog.gd" id="3_34hu1"]
+[ext_resource type="Script" path="res://Player/label.gd" id="3_v1rpp"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4rvsu"]
 height = 1.5
@@ -21,6 +22,8 @@ script = ExtResource("1_slxjq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, -0.424999)
 current = true
 
+[node name="Dialog" parent="Camera" instance=ExtResource("2_ses77")]
+
 [node name="Interaction_area" type="Area3D" parent="Camera"]
 script = ExtResource("2_xhso5")
 
@@ -28,7 +31,7 @@ script = ExtResource("2_xhso5")
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -0.75)
 shape = SubResource("CylinderShape3D_4rvsu")
 
-[node name="Dialog" type="Control" parent="Camera"]
+[node name="UI" type="Control" parent="Camera"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,23 +39,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Camera/Dialog"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Camera/UI"]
 layout_mode = 1
-anchors_preset = 7
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.8
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.8
 offset_left = -0.5
-offset_top = -23.0
+offset_top = -11.5
 offset_right = 0.5
+offset_bottom = 11.5
 grow_horizontal = 2
-grow_vertical = 0
+grow_vertical = 2
 
-[node name="Label" type="Label" parent="Camera/Dialog/VBoxContainer"]
+[node name="InteractionLabel" type="Label" parent="Camera/UI/VBoxContainer"]
 layout_mode = 2
 visible_characters_behavior = 1
-script = ExtResource("3_34hu1")
+script = ExtResource("3_v1rpp")
 
 [node name="body" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

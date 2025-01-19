@@ -2,11 +2,7 @@ extends Area3D
 
 var interactable_activated = false
 var current_interactable = null
-@onready var dialogbox = self.owner.get_node("Camera/Dialog/VBoxContainer/Label")
-
-func _on_ready():
-	print(self.owner)
-
+@onready var interaction_label = self.owner.get_node("Camera/UI/VBoxContainer/InteractionLabel")
 
 func _on_body_entered(body: Node3D) -> void:
 	if not interactable_activated:
@@ -25,10 +21,6 @@ func _on_body_exited(body: Node3D) -> void:
 
 func _process(_delta: float) -> void:
 	if interactable_activated:
-		dialogbox.show_text(current_interactable.interaction_string)
+		interaction_label.show_text(current_interactable.interaction_string)
 	else:
-		dialogbox.show_text()
-
-func _input(event) -> void:
-	if interactable_activated and event.is_action_pressed("interact"):
-		current_interactable.interact();
+		interaction_label.show_text()

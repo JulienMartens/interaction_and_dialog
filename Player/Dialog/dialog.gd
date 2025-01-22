@@ -1,56 +1,136 @@
 extends Control
 
-var dialog_speed = 1.5
+var interactable_activated:bool = false
+var current_interactable:Node3D = null
+var dialog:bool = false
+var dialog_infos:Dictionary = {}
+var current_dialog:String = "1"
+# "Default speed" is 1
+var dialog_speed:float = 1
 var time_since_last_letter_shown = 0
-var dialog = false
-var messages = []
-var last_message_id = -1
-var current_message_id = 0
 @onready var player = self.get_node("../../")
+@onready var option_buttons = get_tree().get_nodes_in_group("option_buttons")
 @onready var dialog_text_label = self.get_node("MainContainer/DialogContainer/DialogTextLabel")
-@onready var option_button1 = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton1")
-@onready var option_button2 = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton2")
-@onready var option_button3 = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton3")
-@onready var option_button4 = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton4")
+@onready var option_button1:Button = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton1")
+@onready var option_button2:Button = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton2")
+@onready var option_button3:Button = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton3")
+@onready var option_button4:Button = self.get_node("MainContainer/OptionsHContainer/OptionsVContainer/OptionButton4")
 
 func _ready():
-	player.interact.connect(go_to_next_message)
-
-func go_to_next_message(_player):
-#	current_message_id == last_message_id + 1
-	pass
-
-func start_dialog(dialog_infos:Dictionary):
-	print(dialog_infos)
-	pass
-
-func set_dialog_speed( new_dialog_speed:float ):
-		dialog_speed = new_dialog_speed
+	player.interact.connect(interact_to_next_message)
+	option_button1.visible = false
+	option_button2.visible = false
+	option_button3.visible = false
+	option_button4.visible = false
+	dialog_text_label.visible_characters = -1
 
 func _process(delta):
-	if dialog_text_label.visible_characters < dialog_text_label.get_total_character_count() and dialog :
-		if time_since_last_letter_shown > 0.01/dialog_speed:
-			dialog_text_label.visible_characters += 1
-			time_since_last_letter_shown  = 0
-		else:
-			time_since_last_letter_shown+=delta
+	#Interaction label logic
+	if interactable_activated and not dialog:
+		self.show_interaction_text(current_interactable.interaction_string)
+	elif not dialog:
+		self.show_interaction_text()
+
+	#Dialog logic
+	if dialog_infos.has(current_dialog):
+		if dialog_infos[current_dialog].has("dialog_string") and dialog:
+			if dialog_infos[current_dialog]["dialog_string"] != dialog_text_label.text:
+				self.prepare_dialog()
+		if dialog_text_label.visible_characters < dialog_text_label.get_total_character_count():
+			if time_since_last_letter_shown > 0.0070/dialog_speed:
+				dialog_text_label.visible_characters += 1
+				time_since_last_letter_shown  = 0
+			else:
+				time_since_last_letter_shown+=delta
+
+
+func show_interaction_text(new_text:String = ""):
+	if not dialog:
+		dialog_text_label.text = tr(new_text)
+
+func set_label_settings( new_label_settings:LabelSettings ):
+	dialog_text_label.set_label_settings(new_label_settings)
+
+func start_dialog(new_dialog_infos:Dictionary):
+	dialog_infos = new_dialog_infos
+	player.set_player_control(false)
+	if dialog_infos.has("dialog_speed"):
+		dialog_speed = dialog_infos["dialog_speed"]
+	dialog = true
+
+func end_dialog():
+	self.clean_ui()
+	dialog_infos = {}
+	current_dialog = "1"
+	dialog_speed = 1
+	time_since_last_letter_shown = 0
+	player.set_player_control(true)
+	dialog = false
+
+func clean_ui():
+	dialog_text_label.visible_characters = -1
+	for option_button in option_buttons:
+		option_button.visible = false
+
+func interact_to_next_message(_player):
+	if dialog:
+		if dialog_infos[current_dialog].has("interactable"):
+			if dialog_infos[current_dialog]["interactable"]:
+				current_dialog == var_to_str(str_to_var(current_dialog)+1)
+			self.clean_ui()
+		if dialog_infos[current_dialog].has("end_dialogue"):
+			if dialog_infos[current_dialog]["end_dialogue"]:
+				self.end_dialog()
+
+func prepare_dialog():
+	if dialog_infos[current_dialog].has("label_settings"):
+		set_label_settings(dialog_infos[current_dialog])
+	dialog_text_label.text = tr(dialog_infos[current_dialog]["dialog_string"])
+	if dialog_infos[current_dialog].has("options"):
+		for option in dialog_infos[current_dialog]["options"]:
+			prepare_button(option_buttons[str_to_var(option)-1],option)
 	else:
-		dialog_text_label.visible_characters = -1
-		dialog = false
-	last_message_id = current_message_id
+		for option_button in option_buttons:
+			option_button.visible = false
+
+func prepare_button(option_button:Button,option:String):
+	if dialog_infos[current_dialog]["options"].has(option):
+		option_button.visible = true
+		option_button.text =dialog_infos[current_dialog]["options"][option]["option_string"]
+
+func option_button_pressed(option_button:Button,option:String):
+	if dialog_infos[current_dialog]["options"][option].has("target_dialog"):
+		current_dialog = dialog_infos[current_dialog]["options"][option]["target_dialog"]
+	elif dialog_infos[current_dialog]["options"][option].has("end_dialog"):
+		end_dialog()
 
 func _on_option_1_pressed() -> void:
-	print("COUCOU")
-	option_button1.text="COUCOU"
+	if dialog_infos[current_dialog]["options"].has("1"):
+		option_button_pressed(option_button1,"1")
 
 func _on_option_button_2_pressed() -> void:
-	print("COUCOU")
-	option_button2.text="COUCOU"
+	if dialog_infos[current_dialog]["options"].has("2"):
+		option_button_pressed(option_button2,"2")
 
 func _on_option_button_3_pressed() -> void:
-	print("COUCOU")
-	option_button3.text="COUCOU"
+	if dialog_infos[current_dialog]["options"].has("3"):
+		option_button_pressed(option_button3,"3")
 
 func _on_option_button_4_pressed() -> void:
-	print("COUCOU")
-	option_button4.text="COUCOU"
+	if dialog_infos[current_dialog]["options"].has("4"):
+		option_button_pressed(option_button4,"4")
+
+
+func _on_interaction_area_body_entered(body: Node3D) -> void:
+	if not interactable_activated:
+		if body is Interactable:
+			print(body.name + " coucou !")
+			interactable_activated = true
+			current_interactable = body
+			body.set_active(true)
+
+func _on_interaction_area_body_exited(body: Node3D) -> void:
+	if interactable_activated and current_interactable == body :
+		interactable_activated = false
+		current_interactable = null
+		body.set_active(false)

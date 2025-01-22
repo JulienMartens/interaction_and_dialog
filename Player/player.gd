@@ -4,6 +4,7 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 var mouse_relative_x = 0
 var mouse_relative_y = 0
+var player_control:bool = true
 
 @onready var dialog_manager = self.get_node("Camera/Dialog")
 
@@ -11,22 +12,17 @@ signal interact(player:CharacterBody3D)
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	pass
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor() and player_control:
 		velocity.y = JUMP_VELOCITY
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var input_dir := Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
+	if direction and player_control:
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
@@ -36,7 +32,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func _input(event):
-	if event is InputEventMouseMotion and not get_tree().paused:
+	if event is InputEventMouseMotion and player_control:
 		rotation.y -= event.relative.x / 1200 / GlobalVariables.mouse_sensitivity
 		$Camera.rotation.x -= event.relative.y / 1200 /GlobalVariables.mouse_sensitivity
 		$Camera.rotation.x = clamp($Camera.rotation.x, deg_to_rad(-90), deg_to_rad(90) )
@@ -47,3 +43,10 @@ func _input(event):
 
 func start_dialog(dialog_infos:Dictionary):
 	dialog_manager.start_dialog(dialog_infos)
+
+func set_player_control(new_player_control:bool):
+	player_control = new_player_control
+	if player_control:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	else:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

@@ -1,3 +1,12 @@
 keys,fr,en
 default_interaction,Interagir,Interact
-godotboy_interact,salut moi c'est godotboy. Bien ou quoi ma gueule ?, Hello I am the godotboy how are you gododoing ?
+godotboy_interact,"Salut, moi c'est godotboy. Bien ou quoi ma gueule ?","Hello I am the godotboy, how are you gododoing ?"
+godotboy_01,"Alors, bien ou bien ?","So, how is it going ?"
+godotboy_01_opt_1,"Ué","Yea"
+godotboy_01_opt_2,"Non","no"
+godotboy_02,"Bah stylé, ca va bien du coup","Cool, so you doin good"
+godotboy_02_opt_1,"Ué","Yea"
+godotboy_02_opt_2,"Non","no"
+godotboy_03,"Bah c'est cool","Yeah it's cool"
+godotboy_04,"Bah c'est cool","Yeah it's cool"
+godotboy_05,"Aller c'est ciao","It's ciao time now"

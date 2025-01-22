@@ -18,15 +18,28 @@ var dialog_infos = {
 	},
 	"2":{
 		"dialog_string": "godotboy_02",
-		"end_dialogue": "true"
+		"options": {
+			"1": {
+				"option_string":"godotboy_02_opt_1",
+				"target_dialog":"4"
+			},
+			"2": {
+				"option_string":"godotboy_02_opt_2",
+				"target_dialog":"5"
+			}
+		}
 	},
 	"3":{
 		"dialog_string": "godotboy_03",
-		"interact_for_next": "true"
+		"end_dialogue": true
 	},
 	"4":{
 		"dialog_string": "godotboy_04",
-		"interact_for_next": "true"
+		"interactable": true
+	},
+	"5":{
+		"dialog_string": "godotboy_05",
+		"end_dialogue": true
 	}
 }
 

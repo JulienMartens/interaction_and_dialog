@@ -6,6 +6,7 @@ var mouse_relative_x = 0
 var mouse_relative_y = 0
 var player_control:bool = true
 
+
 @onready var dialog_manager = self.get_node("Camera/Dialog")
 
 signal interact(player:CharacterBody3D)

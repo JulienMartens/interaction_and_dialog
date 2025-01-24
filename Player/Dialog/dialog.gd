@@ -18,10 +18,8 @@ var time_since_last_letter_shown = 0
 
 func _ready():
 	player.interact.connect(interact_to_next_message)
-	option_button1.visible = false
-	option_button2.visible = false
-	option_button3.visible = false
-	option_button4.visible = false
+	for option_button in option_buttons:
+		option_button.visible = false
 	dialog_text_label.visible_characters = -1
 
 func _process(delta):
@@ -53,6 +51,7 @@ func set_label_settings( new_label_settings:LabelSettings ):
 
 func start_dialog(new_dialog_infos:Dictionary):
 	dialog_infos = new_dialog_infos
+	current_interactable.set_active(false)
 	player.set_player_control(false)
 	if dialog_infos.has("dialog_speed"):
 		dialog_speed = dialog_infos["dialog_speed"]
@@ -67,6 +66,7 @@ func end_dialog():
 	player.set_player_control(true)
 	dialog = false
 
+
 func clean_ui():
 	dialog_text_label.visible_characters = -1
 	for option_button in option_buttons:
@@ -76,7 +76,7 @@ func interact_to_next_message(_player):
 	if dialog:
 		if dialog_infos[current_dialog].has("interactable"):
 			if dialog_infos[current_dialog]["interactable"]:
-				current_dialog == var_to_str(str_to_var(current_dialog)+1)
+				current_dialog = var_to_str(str_to_var(current_dialog)+1)
 			self.clean_ui()
 		if dialog_infos[current_dialog].has("end_dialogue"):
 			if dialog_infos[current_dialog]["end_dialogue"]:

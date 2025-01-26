@@ -55,13 +55,4 @@ surface_material_override/0 = SubResource("StandardMaterial3D_lv0po")
 shape = SubResource("WorldBoundaryShape3D_0ibnr")
 
 [node name="Godotboy" parent="." instance=ExtResource("6_mq51x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.110344, 0, -6.05051)
-
-[node name="Godotboy2" parent="." instance=ExtResource("6_mq51x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.30246, 0, -2.43089)
-
-[node name="Godotboy3" parent="." instance=ExtResource("6_mq51x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.72174, 0, -10.9815)
-
-[node name="Godotboy4" parent="." instance=ExtResource("6_mq51x")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.25949, 0, -5.86712)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37905, 0, -4.8433)

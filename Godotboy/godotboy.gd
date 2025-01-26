@@ -1,8 +1,10 @@
 extends Interactable
 
 var interaction_string = "godotboy_interact"
+var call_flip = Callable(self, "flip")
 
 var dialog_infos = {
+	"self":self,
 	"1":{
 		"dialog_string": "godotboy_01",
 		"options": {
@@ -20,28 +22,56 @@ var dialog_infos = {
 		"dialog_string": "godotboy_02",
 		"options": {
 			"1": {
-				"option_string":"godotboy_02_opt_1",
+				"option_string":"next_dialog",
 				"target_dialog":"4"
-			},
-			"2": {
-				"option_string":"godotboy_02_opt_2",
-				"target_dialog":"5"
 			}
 		}
 	},
 	"3":{
 		"dialog_string": "godotboy_03",
-		"end_dialogue": true
+		"options": {
+			"1": {
+				"option_string":"next_dialog",
+				"target_dialog": "4"
+			}
+		}
 	},
 	"4":{
 		"dialog_string": "godotboy_04",
-		"interactable": true
+		"options": {
+			"1": {
+				"option_string":"godotboy_04_opt_1",
+				"target_dialog": "5",
+				"trigger": call_flip
+			},
+			"2": {
+				"option_string":"godotboy_04_opt_2",
+				"target_dialog": "6"
+			},
+		}
 	},
 	"5":{
 		"dialog_string": "godotboy_05",
-		"end_dialogue": true
+		"options": {
+			"1": {
+					"option_string":"end_dialog",
+					"end_dialog": true
+				},
+			}
+	},
+	"6":{
+		"dialog_string": "godotboy_06",
+		"options": {
+			"1": {
+					"option_string":"end_dialog",
+					"end_dialog": true
+				},
+			}
 	}
 }
+
+func flip():
+	print("FLIP")
 
 func interact(player) -> void:
 	if is_active:

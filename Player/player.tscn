@@ -5,13 +5,13 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_4rvsu"]
 height = 1.5
-radius = 1.12658
+radius = 0.2
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_t88ik"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_13ioa"]
-
 [sub_resource type="TorusMesh" id="TorusMesh_be7l8"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_13ioa"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_slxjq")
@@ -33,13 +33,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 mesh = SubResource("CapsuleMesh_t88ik")
 skeleton = NodePath("../CollisionShape3D")
 
+[node name="eyes" type="MeshInstance3D" parent="body"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0.6, -0.137376)
+mesh = SubResource("TorusMesh_be7l8")
+skeleton = NodePath("../..")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("CapsuleShape3D_13ioa")
-
-[node name="eyes" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 1.6, -0.137376)
-mesh = SubResource("TorusMesh_be7l8")
 
 [connection signal="body_entered" from="Camera/Interaction_area" to="Camera/Dialog" method="_on_interaction_area_body_entered"]
 [connection signal="body_exited" from="Camera/Interaction_area" to="Camera/Dialog" method="_on_interaction_area_body_exited"]

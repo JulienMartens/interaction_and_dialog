@@ -28,7 +28,6 @@ layout_mode = 2
 
 [node name="DialogTextLabel" type="Label" parent="MainContainer/DialogContainer"]
 layout_mode = 2
-text = "rerterter rtertr tet ret etretrerterter rtertr tet ret etretrerterter rtertr tet ret etretrerterter rtertr tet ret etretrerterter rtertr tet ret etretrerterter rtertr tet ret etretrerterter rtertr tet ret etret"
 horizontal_alignment = 1
 autowrap_mode = 2
 visible_characters_behavior = 1
@@ -43,6 +42,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 
 [node name="OptionButton1" type="Button" parent="MainContainer/OptionsHContainer/OptionsVContainer" groups=["option_buttons"]]
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 2
@@ -52,6 +52,7 @@ ze ezzrezrzr"
 autowrap_mode = 2
 
 [node name="OptionButton2" type="Button" parent="MainContainer/OptionsHContainer/OptionsVContainer" groups=["option_buttons"]]
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 2
@@ -61,6 +62,7 @@ text = "Hello
 autowrap_mode = 2
 
 [node name="OptionButton3" type="Button" parent="MainContainer/OptionsHContainer/OptionsVContainer" groups=["option_buttons"]]
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 2
@@ -70,6 +72,7 @@ text = "Hello
 autowrap_mode = 2
 
 [node name="OptionButton4" type="Button" parent="MainContainer/OptionsHContainer/OptionsVContainer" groups=["option_buttons"]]
+visible = false
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 size_flags_vertical = 2
